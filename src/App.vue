@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios, { AxiosError } from 'axios';
+import Options from '@/components/Options.vue';
 
 const currencies = ref([
   { code: 'TWD', text: '新臺幣' },
@@ -63,12 +64,7 @@ const convertCurrency = async () => {
     <h1 class="text-gray-900 font-bold text-2xl">匯率轉換器</h1>
     <main class="grid grid-cols-7 gap-4 mt-5">
       <div class="col-span-3">
-        <select v-model="baseCurrency" @change="reset"
-          class="mb-2 block w-full bg-white rounded-md border-0 py-2.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
-          <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
-            {{ currency.text }} ({{ currency.code }})
-          </option>
-        </select>
+        <Options v-model="baseCurrency" @change="reset" :options="currencies" class="mb-2" />
         <input type="text" v-model="amount"
           class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
           placeholder="0.00" />
@@ -80,12 +76,7 @@ const convertCurrency = async () => {
       </button>
 
       <div class="col-span-3">
-        <select v-model="targetCurrency" @change="reset"
-          class="mb-2 block w-full bg-white rounded-md border-0 py-2.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
-          <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
-            {{ currency.text }} ({{ currency.code }})
-          </option>
-        </select>
+        <Options v-model="targetCurrency" @change="reset" :options="currencies" class="mb-2" />
         <input type="text" :value="result" readonly
           class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
           placeholder="0.00" />
