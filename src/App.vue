@@ -59,31 +59,38 @@ const convertCurrency = async () => {
 </script>
 
 <template>
-  <div>
-    <h1>匯率轉換器</h1>
-    <main>
-      <div>
-        <select v-model="baseCurrency" @change="reset">
+  <div class="sm:container mx-auto m-10">
+    <h1 class="text-gray-900 font-bold text-2xl">匯率轉換器</h1>
+    <main class="grid grid-cols-7 gap-4 mt-5">
+      <div class="col-span-3">
+        <select v-model="baseCurrency" @change="reset"
+          class="mb-2 block w-full bg-white rounded-md border-0 py-2.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
           <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
             {{ currency.text }} ({{ currency.code }})
           </option>
         </select>
-        <input type="text" v-model="amount" placeholder="0.00" />
+        <input type="text" v-model="amount"
+          class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+          placeholder="0.00" />
       </div>
 
-      <button @click="convertCurrency">
+      <button class="font-bold rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300"
+        @click="convertCurrency">
         兌換
       </button>
 
       <div class="col-span-3">
-        <select v-model="targetCurrency" @change="reset">
+        <select v-model="targetCurrency" @change="reset"
+          class="mb-2 block w-full bg-white rounded-md border-0 py-2.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
           <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
             {{ currency.text }} ({{ currency.code }})
           </option>
         </select>
-        <input type="text" :value="result" readonly placeholder="0.00" />
+        <input type="text" :value="result" readonly
+          class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+          placeholder="0.00" />
       </div>
     </main>
-    <section :style="{ 'color': 'red' }">{{ error }}</section>
+    <section class="text-red-500 mt-2">{{ error }}</section>
   </div>
 </template>
