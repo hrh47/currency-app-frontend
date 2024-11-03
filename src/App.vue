@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import axios, { AxiosError } from 'axios';
 import Options from '@/components/Options.vue';
+import momentTz from "moment-timezone";
 
 const currencies = ref([
   { code: 'TWD', text: '新臺幣' },
@@ -30,14 +31,18 @@ const targetCurrency = ref('USD');
 const amount = ref(1);
 const result = ref<string | null>(null);
 const error = ref<string | null>(null);
+const quotedDateText = ref<string | null>(null);
 
 const reset = () => {
   amount.value = 1;
   result.value = null;
   error.value = null;
+  quotedDateText.value = null;
 };
 
 const convertCurrency = async () => {
+  error.value = null;
+
   if (!amount.value) {
     return;
   }
@@ -51,6 +56,7 @@ const convertCurrency = async () => {
     });
 
     const exchangeRate = response.data.exchange_rate;
+    quotedDateText.value = response.data.quoted_date ? momentTz.tz(response.data.quoted_date, 'Asia/Taipei').format('YYYY/MM/DD hh:mm') : null;
     result.value = (amount.value * exchangeRate).toFixed(5);
   } catch (e) {
     error.value =
@@ -81,6 +87,7 @@ const convertCurrency = async () => {
           class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
           placeholder="0.00" />
       </div>
+      <section class="col-span-7" v-if="quotedDateText">牌價最新掛牌時間：{{ quotedDateText }}</section>
     </main>
     <section class="text-red-500 mt-2">{{ error }}</section>
   </div>
