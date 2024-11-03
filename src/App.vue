@@ -48,7 +48,7 @@ const convertCurrency = async () => {
   }
 
   try {
-    const response = await axios.get('http://localhost:3000/exchange-rate', {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/exchange-rate`, {
       params: {
         base_currency: baseCurrency.value,
         target_currency: targetCurrency.value
